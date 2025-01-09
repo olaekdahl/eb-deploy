@@ -15,56 +15,56 @@ jobs:
       run: |
         chmod +x ./gradlew
     
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '21' # Adjust to your Java version
+    # - name: Set up JDK
+    #   uses: actions/setup-java@v4
+    #   with:
+    #     distribution: 'temurin'
+    #     java-version: '21' # Adjust to your Java version
 
-    - name: Set up Gradle
-      uses: gradle/gradle-build-action@v3
-      with:
-        arguments: clean build
+    # - name: Set up Gradle
+    #   uses: gradle/gradle-build-action@v3
+    #   with:
+    #     arguments: clean build
 
-    - name: Install Elastic Beanstalk CLI
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3 python3-pip
-        pip3 install --upgrade pip
-        pip3 install awsebcli
+    # - name: Install Elastic Beanstalk CLI
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get install -y python3 python3-pip
+    #     pip3 install --upgrade pip
+    #     pip3 install awsebcli
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-        aws-region: us-west-2
+    # - name: Configure AWS credentials
+    #   uses: aws-actions/configure-aws-credentials@v4
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+    #     aws-region: us-west-2
 
-    - name: Deploy to AWS Elastic Beanstalk
-      env:
-        ENV_NAME: "spring-boot-app-env"                  # Replace with your Elastic Beanstalk environment name
-        EB_APP_NAME: "spring-boot-app"          # Replace with your Elastic Beanstalk application name
-        REGION: "us-west-2"                     # Replace with your AWS region
-        TIMEOUT: 15                             # Timeout for environment creation
-      run: |
-        # Package the application
-        JAR_FILE=$(find build/libs -name "*.jar" | head -n 1)
-        echo "Deploying $JAR_FILE"
+    # - name: Deploy to AWS Elastic Beanstalk
+    #   env:
+    #     ENV_NAME: "spring-boot-app-env"                  # Replace with your Elastic Beanstalk environment name
+    #     EB_APP_NAME: "spring-boot-app"          # Replace with your Elastic Beanstalk application name
+    #     REGION: "us-west-2"                     # Replace with your AWS region
+    #     TIMEOUT: 15                             # Timeout for environment creation
+    #   run: |
+    #     # Package the application
+    #     JAR_FILE=$(find build/libs -name "*.jar" | head -n 1)
+    #     echo "Deploying $JAR_FILE"
 
-        # Initialize Elastic Beanstalk application
-        eb init -p java $EB_APP_NAME --region $REGION
+    #     # Initialize Elastic Beanstalk application
+    #     eb init -p java $EB_APP_NAME --region $REGION
 
-        # Check if the environment exists
-        if eb status $ENV_NAME > /dev/null 2>&1; then
-            echo "Environment '$ENV_NAME' already exists. Skipping creation."
-        else
-            echo "Environment '$ENV_NAME' does not exist. Creating it..."
-            eb create $ENV_NAME --timeout $TIMEOUT
-        fi
+    #     # Check if the environment exists
+    #     if eb status $ENV_NAME > /dev/null 2>&1; then
+    #         echo "Environment '$ENV_NAME' already exists. Skipping creation."
+    #     else
+    #         echo "Environment '$ENV_NAME' does not exist. Creating it..."
+    #         eb create $ENV_NAME --timeout $TIMEOUT
+    #     fi
 
-        # Set environment variables
-        eb setenv SERVER_PORT=5000
+    #     # Set environment variables
+    #     eb setenv SERVER_PORT=5000
 
-        # Deploy the application
-        cp $JAR_FILE ./application.jar
-        eb deploy
+    #     # Deploy the application
+    #     cp $JAR_FILE ./application.jar
+    #     eb deploy
