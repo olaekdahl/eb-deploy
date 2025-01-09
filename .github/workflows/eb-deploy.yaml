@@ -36,6 +36,18 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: us-west-2
 
+    - name: Prepare Deployment Package
+      run: |
+          # Ensure build directory exists and package files are ready
+          mkdir -p deployment
+          JAR_FILE=$(find build/libs -name "*.jar" | head -n 1)
+          echo "Found JAR file: $JAR_FILE"
+          cp $JAR_FILE deployment/application.jar
+          cp Procfile deployment/Procfile
+          cd deployment
+          zip -r ../deployment.zip .
+          cd ..
+
     - name: Deploy to AWS Elastic Beanstalk
       env:
         ENV_NAME: "spring-boot-app-env"                  # Replace with your Elastic Beanstalk environment name
@@ -43,13 +55,6 @@ jobs:
         REGION: "us-west-2"                     # Replace with your AWS region
         TIMEOUT: 15                             # Timeout for environment creation
       run: |
-        # Package the application
-        JAR_FILE=$(find build/libs -name "*.jar" | head -n 1)
-        echo "Deploying $JAR_FILE"
-
-        # Copy JAR file and Procfile to the root of the deployment bundle
-        cp $JAR_FILE ./application.jar
-
         # Initialize Elastic Beanstalk application
         eb init -p corretto-21 $EB_APP_NAME --region $REGION
 
