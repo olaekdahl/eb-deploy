@@ -49,7 +49,6 @@ jobs:
 
         # Copy JAR file and Procfile to the root of the deployment bundle
         cp $JAR_FILE ./application.jar
-        cp Procfile ./Procfile
 
         # Initialize Elastic Beanstalk application
         eb init -p corretto-21 $EB_APP_NAME --region $REGION
