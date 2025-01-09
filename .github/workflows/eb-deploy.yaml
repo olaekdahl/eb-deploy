@@ -34,7 +34,7 @@ jobs:
 
     - name: Deploy to AWS Elastic Beanstalk
       run: |
-        eb init -p python-3.12 devops-demo --region us-west-2
+        eb init -p python-3.12 capstone-test --region us-west-1
         
         ENV_NAME="devops-env"
         TIMEOUT=15
