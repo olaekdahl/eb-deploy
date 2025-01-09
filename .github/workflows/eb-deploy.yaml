@@ -58,6 +58,9 @@ jobs:
             eb create $ENV_NAME --timeout $TIMEOUT
         fi
 
+        # Set environment variables
+        eb setenv SERVER_PORT=5000
+
         # Deploy the application
         cp $JAR_FILE ./application.jar
         eb deploy

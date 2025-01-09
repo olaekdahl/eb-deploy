@@ -45,7 +45,7 @@ Thumbs.db
 
 # Application-specific files
 *.class
-*.jar
+# *.jar
 *.war
 *.ear
 
