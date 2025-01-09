@@ -10,7 +10,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
@@ -48,7 +48,7 @@ jobs:
         echo "Deploying $JAR_FILE"
 
         # Initialize Elastic Beanstalk application
-        eb init -p java $EB_APP_NAME --region $REGION
+        eb init -p corretto-21 $EB_APP_NAME --region $REGION
 
         # Check if the environment exists
         if eb status $ENV_NAME > /dev/null 2>&1; then

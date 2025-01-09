@@ -33,6 +33,7 @@ nbdist/
 
 # VS Code
 .vscode/
+venv/
 
 # Log files
 *.log
