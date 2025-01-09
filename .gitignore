@@ -1,3 +1,9 @@
+# Application-specific files
+*.class
+*.jar
+*.war
+*.ear
+
 # Gradle-specific files
 .gradle/
 build/
@@ -42,12 +48,6 @@ nbdist/
 # OS-specific files
 .DS_Store
 Thumbs.db
-
-# Application-specific files
-*.class
-# *.jar
-*.war
-*.ear
 
 # Spring Boot
 target/

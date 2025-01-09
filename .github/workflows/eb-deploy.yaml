@@ -19,8 +19,14 @@ jobs:
 
     - name: Set up Gradle
       uses: gradle/gradle-build-action@v3
-      with:
-        arguments: clean build
+    
+    - name: Rebuild Gradle Wrapper (fixes issue if built on Windows)
+      run: |
+        gradle wrapper
+        chmod +x ./gradlew
+
+    - name: Build Project
+      run: ./gradlew build
 
     - name: Install Elastic Beanstalk CLI
       run: |
