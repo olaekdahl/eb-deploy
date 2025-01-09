@@ -1,2 +1,71 @@
-__pycache__/
-venv/
+# Gradle-specific files
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+.gradle-cache/
+.gradle-build/
+
+# Eclipse-specific files
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA-specific files
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# NetBeans-specific files
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# VS Code
+.vscode/
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~.nib
+*~.orig
+*.bak
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Application-specific files
+*.class
+*.jar
+*.war
+*.ear
+
+# Spring Boot
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+spring.log
+
+# Environment files
+.env
+.env.*
+*.properties.local
+application-*.yml
+application-*.yaml
+application-*.properties
+
+# Sensitive files
+*.key
+*.pem
+*.crt
+*.p12
+*.jks
