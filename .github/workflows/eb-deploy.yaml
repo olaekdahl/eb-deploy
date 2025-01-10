@@ -42,9 +42,9 @@ jobs:
         FILENAME=$(basename "$JAR_FILE")
         echo "Found JAR file: $JAR_FILE"
         echo "Extracted filename: $FILENAME"
-        mkdir -p .elasticbeanstalk/staging
-        cp "$JAR_FILE" .elasticbeanstalk/staging/"$FILENAME".jar
-        cp Procfile .elasticbeanstalk/staging/Procfile
+        mkdir -p staging
+        cp "$JAR_FILE" staging/"$FILENAME".jar
+        cp Procfile staging/Procfile
 
     # - name: Prepare Deployment Package
     #   run: |
@@ -57,11 +57,12 @@ jobs:
 
     - name: Deploy to AWS Elastic Beanstalk
       env:
-        ENV_NAME: "spring-boot-app-1"     # Replace with your Elastic Beanstalk environment name
+        ENV_NAME: "spring-boot-app-env"     # Replace with your Elastic Beanstalk environment name
         EB_APP_NAME: "spring-boot-app"          # Replace with your Elastic Beanstalk application name
         REGION: "us-west-2"                     # Replace with your AWS region
         TIMEOUT: 15                             # Timeout for environment creation
       run: |
+        cd staging
         eb init -p corretto-21 $EB_APP_NAME --region $REGION
     
         # If environment doesn't exist, create it
