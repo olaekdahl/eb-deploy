@@ -44,7 +44,7 @@ jobs:
         echo "Extracted filename: $FILENAME"
         mkdir -p staging
         cp "$JAR_FILE" staging/"$FILENAME"
-        cp Procfile staging/Procfile
+        # cp Procfile staging/Procfile
 
     # - name: Prepare Deployment Package
     #   run: |
@@ -71,8 +71,6 @@ jobs:
         else
           eb create $ENV_NAME --timeout $TIMEOUT
         fi
-        
-        eb setenv SERVER_PORT=5000
 
         # Deploy the zipped application package
-        eb deploy --staged --label "build-$(date +%s)"
+        eb deploy --label "build-$(date +%s)"
