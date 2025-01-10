@@ -38,33 +38,30 @@ jobs:
 
     - name: Prepare Deployment Package
       run: |
-          # Ensure build directory exists and package files are ready
           mkdir -p app
           JAR_FILE=$(find build/libs -name "*.jar" | head -n 1)
           echo "Found JAR file: $JAR_FILE"
-          cp $JAR_FILE .
           
-
+          # Copy the JAR to "app" and rename it to something predictable
+          cp "$JAR_FILE" app/application.jar
+      
+          # Create a zip for EB
+          cd app
+          zip -r ../application.zip . 
+          cd ..
+          ls -lah
+          echo "Packaging complete. application.zip created."
+      
     - name: Deploy to AWS Elastic Beanstalk
-      env:
-        ENV_NAME: "spring-boot-app-env"                  # Replace with your Elastic Beanstalk environment name
-        EB_APP_NAME: "spring-boot-app"          # Replace with your Elastic Beanstalk application name
-        REGION: "us-west-2"                     # Replace with your AWS region
-        TIMEOUT: 15                             # Timeout for environment creation
       run: |
-        # Initialize Elastic Beanstalk application
-        eb init -p corretto-21 $EB_APP_NAME --region $REGION
-
-        # Check if the environment exists
-        if eb status $ENV_NAME > /dev/null 2>&1; then
-            echo "Environment '$ENV_NAME' already exists. Skipping creation."
-        else
-            echo "Environment '$ENV_NAME' does not exist. Creating it..."
+          eb init -p corretto-21 $EB_APP_NAME --region $REGION
+          
+          # If environment doesn't exist, create it
+          if eb status $ENV_NAME > /dev/null 2>&1; then
+            echo "Environment '$ENV_NAME' already exists."
+          else
             eb create $ENV_NAME --timeout $TIMEOUT
-        fi
-
-        # Set environment variables
-        eb setenv SERVER_PORT=5000
-
-        # Deploy the application
-        eb deploy
+          fi
+          
+          # Deploy using the zip we created
+          eb deploy --staged --label "build-$(date +%s)"
