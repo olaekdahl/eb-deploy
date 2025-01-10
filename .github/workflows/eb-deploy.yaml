@@ -50,10 +50,11 @@ jobs:
         cd ..
         ls -lah application.zip
         echo "Deployment package ready."
+        git add .
 
     - name: Deploy to AWS Elastic Beanstalk
       env:
-        ENV_NAME: "spring-boot-app-env-4"       # Replace with your Elastic Beanstalk environment name
+        ENV_NAME: "spring-boot-app-env-dev"     # Replace with your Elastic Beanstalk environment name
         EB_APP_NAME: "spring-boot-app"          # Replace with your Elastic Beanstalk application name
         REGION: "us-west-2"                     # Replace with your AWS region
         TIMEOUT: 15                             # Timeout for environment creation
