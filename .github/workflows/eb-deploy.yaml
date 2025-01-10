@@ -67,8 +67,6 @@ jobs:
         else
           eb create $ENV_NAME --timeout $TIMEOUT
         fi
-        
-        eb setenv SERVER_PORT=5000
 
         # Deploy the zipped application package
         eb deploy --label "build-$(date +%s)"
