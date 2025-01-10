@@ -39,13 +39,13 @@ jobs:
     - name: Prepare Deployment Package
       run: |
           # Ensure build directory exists and package files are ready
-          mkdir -p deployment
+          mkdir -p app
           JAR_FILE=$(find build/libs -name "*.jar" | head -n 1)
           echo "Found JAR file: $JAR_FILE"
-          cp $JAR_FILE deployment/application.jar
-          cp Procfile deployment/Procfile
-          cd deployment
-          zip -r ../deployment.zip .
+          cp $JAR_FILE app/application.jar
+          cp Procfile app/Procfile
+          cd app
+          zip -r ../app.zip .
           cd ..
 
     - name: Deploy to AWS Elastic Beanstalk
