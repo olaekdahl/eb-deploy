@@ -70,9 +70,3 @@ jobs:
 
         # Deploy the zipped application package
         eb deploy --label "build-$(date +%s)"
-        
-    - name: Get Deployed URL
-      run: |
-        DEPLOYED_URL=$(eb status | grep "CNAME:" | awk '{print $2}')
-        echo "Deployed URL: $DEPLOYED_URL"
-        echo "API: $DEPLOYED_URL/customers"
