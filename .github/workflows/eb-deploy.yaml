@@ -42,11 +42,8 @@ jobs:
           mkdir -p app
           JAR_FILE=$(find build/libs -name "*.jar" | head -n 1)
           echo "Found JAR file: $JAR_FILE"
-          cp $JAR_FILE app/application.jar
-          cp Procfile app/Procfile
-          cd app
-          zip -r ../app.zip .
-          cd ..
+          cp $JAR_FILE .
+          
 
     - name: Deploy to AWS Elastic Beanstalk
       env:
